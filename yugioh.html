@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Duel Tracker</title>
+    <style>
+        body {
+            background: url('background.png') no-repeat center center fixed;
+            background-size: cover;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            color: white;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        th, td {
+            padding: 15px;
+            border: 1px solid white;
+        }
+        th {
+            background: darkred;
+        }
+        td img {
+            width: 20px;
+            height: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background: gold;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        button:hover {
+            background: darkorange;
+        }
+        .replay-links a {
+            display: block;
+            color: cyan;
+            text-decoration: none;
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <button onclick="authenticate()">Add Duel</button>
+        <table id="duelTable">
+            <thead>
+                <tr>
+                    <th>Player 1</th>
+                    <th>Player 2</th>
+                    <th>Winner</th>
+                    <th>Player 1 Stars</th>
+                    <th>Player 2 Stars</th>
+                    <th>Replays</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        function authenticate() {
+            let password = prompt("Enter the password:");
+            if (password === "Piccolo@123") {
+                addDuel();
+            } else {
+                alert("Incorrect password!");
+            }
+        }
+
+        function addDuel() {
+            let player1 = prompt("Enter first duelist's name:");
+            let player2 = prompt("Enter second duelist's name:");
+            let winner = prompt("Who won the duel?");
+            let stars1 = parseInt(prompt(`How many stars does ${player1} have?`));
+            let stars2 = parseInt(prompt(`How many stars does ${player2} have?`));
+            let replayLinks = [];
+            
+            for (let i = 1; i <= 3; i++) {
+                let link = prompt(`Enter replay link ${i} (or leave blank to skip):`);
+                if (link) {
+                    replayLinks.push(`<a href='${link}' target='_blank'>Duel ${i}</a>`);
+                }
+            }
+            
+            if (!player1 || !player2 || !winner || isNaN(stars1) || isNaN(stars2)) {
+                alert("Invalid input! Please enter valid details.");
+                return;
+            }
+            
+            let table = document.getElementById("duelTable").getElementsByTagName('tbody')[0];
+            let newRow = table.insertRow();
+            newRow.innerHTML = `
+                <td>${player1}</td>
+                <td>${player2}</td>
+                <td>${winner}</td>
+                <td>${generateStars(stars1)}</td>
+                <td>${generateStars(stars2)}</td>
+                <td class='replay-links'>${replayLinks.join(' ')}</td>
+            `;
+        }
+
+        function generateStars(count) {
+            let stars = '';
+            for (let i = 0; i < count; i++) {
+                stars += '<img src="star.png" alt="star"> ';
+            }
+            return stars;
+        }
+    </script>
+</body>
+</html>
