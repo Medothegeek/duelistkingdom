@@ -9,31 +9,41 @@
             background: url('background.png') no-repeat center center fixed;
             background-size: cover;
             font-family: Arial, sans-serif;
-            text-align: center;
             color: white;
+            text-align: center;
+            margin: 0;
+            padding: 0;
         }
+
         .container {
-            margin-top: 50px;
+            margin: 50px auto;
+            width: 90%;
         }
+
         table {
-            width: 80%;
-            margin: 20px auto;
+            width: 100%;
             border-collapse: collapse;
-            background: rgba(0, 0, 0, 0.7);
+            background: rgba(0, 0, 0, 0.8);
             border-radius: 10px;
             overflow: hidden;
         }
+
         th, td {
             padding: 15px;
-            border: 1px solid white;
+            text-align: center;
+            border: 1px solid #fff;
         }
+
         th {
-            background: darkred;
+            background-color: #ff4c4c;
+            color: white;
         }
+
         td img {
-            width: 20px;
-            height: 20px;
+            width: 25px;
+            height: 25px;
         }
+
         button {
             padding: 10px 20px;
             font-size: 16px;
@@ -41,21 +51,77 @@
             border: none;
             cursor: pointer;
             border-radius: 5px;
+            margin: 10px;
         }
+
         button:hover {
-            background: darkorange;
+            background: orange;
         }
+
         .replay-links a {
-            display: block;
             color: cyan;
             text-decoration: none;
-            margin: 5px 0;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            color: white;
+            width: 50%;
+        }
+
+        .modal-header {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .modal-close {
+            background: red;
+            border: none;
+            color: white;
+            font-size: 16px;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .modal-close:hover {
+            background: darkred;
+        }
+
+        .player-list {
+            text-align: left;
+        }
+
+        .player-item {
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+
+        .player-item img {
+            margin-left: 5px;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <button onclick="authenticate()">Add Duel</button>
+        <h1>Duel Tracker</h1>
+        <button onclick="addDuel()">Add Duel</button>
+        <button onclick="showPlayerContacts()">Show Player Contacts</button>
         <table id="duelTable">
             <thead>
                 <tr>
@@ -68,58 +134,133 @@
                 </tr>
             </thead>
             <tbody>
+                <!-- Existing Data -->
+                <tr>
+                    <td>Ayup</td>
+                    <td>Unlucky</td>
+                    <td>Unlucky</td>
+                    <td><img src="star.png" alt="star"></td>
+                    <td>
+                        <img src="star.png" alt="star">
+                        <img src="star.png" alt="star">
+                        <img src="star.png" alt="star">
+                    </td>
+                    <td class='replay-links'></td>
+                </tr>
+                <tr>
+                    <td>Ayup</td>
+                    <td>Ouss</td>
+                    <td>Ayup</td>
+                    <td>
+                        <img src="star.png" alt="star">
+                        <img src="star.png" alt="star">
+                    </td>
+                    <td><img src="star.png" alt="star"></td>
+                    <td class='replay-links'></td>
+                </tr>
+                <tr>
+                    <td>Ayup</td>
+                    <td>Driss</td>
+                    <td>Ayup</td>
+                    <td>
+                        <img src="star.png" alt="star">
+                        <img src="star.png" alt="star">
+                        <img src="star.png" alt="star">
+                    </td>
+                    <td><img src="star.png" alt="star"></td>
+                    <td class='replay-links'></td>
+                </tr>
+                <tr>
+                    <td>Driss</td>
+                    <td>Ouss</td>
+                    <td>Driss</td>
+                    <td>
+                        <img src="star.png" alt="star">
+                        <img src="star.png" alt="star">
+                    </td>
+                    <td><img src="star.png" alt="star"></td>
+                    <td class='replay-links'></td>
+                </tr>
             </tbody>
         </table>
     </div>
 
+    <!-- Modal for Player Contacts -->
+    <div id="playerModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">Player Contacts</div>
+            <div class="player-list" id="playerList"></div>
+            <button class="modal-close" onclick="closePlayerModal()">Close</button>
+        </div>
+    </div>
+
     <script>
-        function authenticate() {
-            let password = prompt("Enter the password:");
-            if (password === "Piccolo@123") {
-                addDuel();
-            } else {
-                alert("Incorrect password!");
-            }
-        }
+        // Players and their phone numbers with stars
+        const players = [
+            { name: "Ayup", number: "+33 6 60 43 91 39", stars: 3 },
+            { name: "Driss", number: "+212 774-625501", stars: 2 },
+            { name: "Unlucky", number: "+212 629-960047", stars: 3 }
+        ];
 
         function addDuel() {
-            let player1 = prompt("Enter first duelist's name:");
-            let player2 = prompt("Enter second duelist's name:");
-            let winner = prompt("Who won the duel?");
-            let stars1 = parseInt(prompt(`How many stars does ${player1} have?`));
-            let stars2 = parseInt(prompt(`How many stars does ${player2} have?`));
-            let replayLinks = [];
-            
-            for (let i = 1; i <= 3; i++) {
-                let link = prompt(`Enter replay link ${i} (or leave blank to skip):`);
-                if (link) {
-                    replayLinks.push(`<a href='${link}' target='_blank'>Duel ${i}</a>`);
-                }
-            }
-            
+            let player1 = prompt("Enter Player 1 name:");
+            let player2 = prompt("Enter Player 2 name:");
+            let winner = prompt("Who won?");
+            let stars1 = parseInt(prompt("Player 1 stars (number):"));
+            let stars2 = parseInt(prompt("Player 2 stars (number):"));
+
             if (!player1 || !player2 || !winner || isNaN(stars1) || isNaN(stars2)) {
-                alert("Invalid input! Please enter valid details.");
+                alert("All fields are required!");
                 return;
             }
-            
-            let table = document.getElementById("duelTable").getElementsByTagName('tbody')[0];
-            let newRow = table.insertRow();
-            newRow.innerHTML = `
+
+            const replays = [];
+            for (let i = 0; i < 3; i++) {
+                let replay = prompt(`Enter Replay Link ${i + 1} (or leave blank):`);
+                if (replay) replays.push(`<a href="${replay}" target="_blank">Replay ${i + 1}</a>`);
+            }
+
+            const tableBody = document.querySelector("#duelTable tbody");
+            const row = document.createElement("tr");
+
+            row.innerHTML = `
                 <td>${player1}</td>
                 <td>${player2}</td>
                 <td>${winner}</td>
                 <td>${generateStars(stars1)}</td>
                 <td>${generateStars(stars2)}</td>
-                <td class='replay-links'>${replayLinks.join(' ')}</td>
+                <td>${replays.join(" ")}</td>
             `;
+
+            tableBody.appendChild(row);
         }
 
         function generateStars(count) {
             let stars = '';
             for (let i = 0; i < count; i++) {
-                stars += '<img src="star.png" alt="star"> ';
+                stars += '<img src="star.png" alt="star">';
             }
             return stars;
+        }
+
+        function showPlayerContacts() {
+            const playerList = document.getElementById("playerList");
+            playerList.innerHTML = players
+                .map(player => `
+                    <div class="player-item">
+                        ${player.name} (${player.number}): 
+                        ${generateStars(player.stars)}
+                    </div>
+                `)
+                .join("");
+
+            const modal = document.getElementById("playerModal");
+            modal.style.display = "flex";
+        }
+
+        function closePlayerModal() {
+            const modal = document.getElementById("playerModal");
+            modal.style.display = "none";
         }
     </script>
 </body>
