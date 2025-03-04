@@ -1,0 +1,16 @@
+{
+  "duels": [
+    {
+      "player1": "John Doe",
+      "player2": "Jane Smith",
+      "winner": "John Doe",
+      "player1Stars": 5,
+      "player2Stars": 3,
+      "replays": [
+        "https://example.com/replay1",
+        "https://example.com/replay2",
+        "https://example.com/replay3"
+      ]
+    }
+  ]
+}
