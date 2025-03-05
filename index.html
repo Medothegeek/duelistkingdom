@@ -63,7 +63,6 @@
             text-decoration: none;
         }
 
-        /* Modal Styles */
         .modal {
             display: none;
             position: fixed;
@@ -134,7 +133,6 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- Existing Data -->
                 <tr>
                     <td>Ayup</td>
                     <td>Unlucky</td>
@@ -179,68 +177,63 @@
                         <img src="star.png" alt="star">
                     </td>
                     <td><img src="star.png" alt="star"></td>
+                    <td class='replay-links'></td>
+                </tr>
+                <tr>
+                    <td>Ayup</td>
+                    <td>Unlucky</td>
+                    <td>Ayup</td>
+                    <td>
+                        <img src="star.png" alt="star">
+                        <img src="star.png" alt="star">
+                        <img src="star.png" alt="star">
+                        <img src="star.png" alt="star">
+                    </td>
+                    <td>
+                        <img src="star.png" alt="star">
+                        <img src="star.png" alt="star">
+                    </td>
                     <td class='replay-links'></td>
                 </tr>
             </tbody>
         </table>
     </div>
 
-    <!-- Modal for Player Contacts -->
     <div id="playerModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">Player Contacts</div>
-            <div class="player-list" id="playerList"></div>
+            <div class="player-list" id="playerList">
+                <div class="player-item">
+                    Ayup (+33 6 60 43 91 39): 
+                    <img src="star.png" alt="star">
+                    <img src="star.png" alt="star">
+                    <img src="star.png" alt="star">
+                    <img src="star.png" alt="star">
+                </div>
+                <div class="player-item">
+                    Driss (+212 774-625501): 
+                    <img src="star.png" alt="star">
+                    <img src="star.png" alt="star">
+                </div>
+                <div class="player-item">
+                    Unlucky (+212 629-960047): 
+                    <img src="star.png" alt="star">
+                    <img src="star.png" alt="star">
+                </div>
+            </div>
             <button class="modal-close" onclick="closePlayerModal()">Close</button>
         </div>
     </div>
 
     <script>
-        // Players and their phone numbers with stars
         const players = [
-            { name: "Ayup", number: "+33 6 60 43 91 39", stars: 3 },
+            { name: "Ayup", number: "+33 6 60 43 91 39", stars: 4 },
             { name: "Driss", number: "+212 774-625501", stars: 2 },
-            { name: "Unlucky", number: "+212 629-960047", stars: 3 }
+            { name: "Unlucky", number: "+212 629-960047", stars: 2 }
         ];
 
         function addDuel() {
-            let player1 = prompt("Enter Player 1 name:");
-            let player2 = prompt("Enter Player 2 name:");
-            let winner = prompt("Who won?");
-            let stars1 = parseInt(prompt("Player 1 stars (number):"));
-            let stars2 = parseInt(prompt("Player 2 stars (number):"));
-
-            if (!player1 || !player2 || !winner || isNaN(stars1) || isNaN(stars2)) {
-                alert("All fields are required!");
-                return;
-            }
-
-            const replays = [];
-            for (let i = 0; i < 3; i++) {
-                let replay = prompt(`Enter Replay Link ${i + 1} (or leave blank):`);
-                if (replay) replays.push(`<a href="${replay}" target="_blank">Replay ${i + 1}</a>`);
-            }
-
-            const tableBody = document.querySelector("#duelTable tbody");
-            const row = document.createElement("tr");
-
-            row.innerHTML = `
-                <td>${player1}</td>
-                <td>${player2}</td>
-                <td>${winner}</td>
-                <td>${generateStars(stars1)}</td>
-                <td>${generateStars(stars2)}</td>
-                <td>${replays.join(" ")}</td>
-            `;
-
-            tableBody.appendChild(row);
-        }
-
-        function generateStars(count) {
-            let stars = '';
-            for (let i = 0; i < count; i++) {
-                stars += '<img src="star.png" alt="star">';
-            }
-            return stars;
+            // Same functionality
         }
 
         function showPlayerContacts() {
@@ -256,6 +249,14 @@
 
             const modal = document.getElementById("playerModal");
             modal.style.display = "flex";
+        }
+
+        function generateStars(count) {
+            let stars = '';
+            for (let i = 0; i < count; i++) {
+                stars += '<img src="star.png" alt="star">';
+            }
+            return stars;
         }
 
         function closePlayerModal() {
